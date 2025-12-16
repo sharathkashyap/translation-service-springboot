@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: translation-service
+  jackson:
+    default-property-inclusion: non_null
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+logging:
+  level:
+    root: INFO
+    com.translation: DEBUG
+  file:
+    name: logs/application.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# Translation Service Configuration
+translation:
+  engine: local  # Options: google, openai, local
+  
+  # Google Cloud Configuration
+  google:
+    project-id: ${GOOGLE_PROJECT_ID:}
+    credentials-path: ${GOOGLE_CREDENTIALS_PATH:./google-credentials.json}
+  
+  # OpenAI Configuration
+  openai:
+    api-key: 123
+    model: gpt-3.5-turbo
+  
+  # Local Model Configuration
+  local:
+    model-name: facebook/nllb-200-distilled-600M
+    device: cuda  # cuda or cpu
+    precision: float32  # float32 or float16
+    batch-size: 8
+    max-length: 512
+  
+  # API Configuration
+  api:
+    max-text-length: 5000
+    max-batch-size: 100
+    cache-enabled: true
+    cache-ttl: 3600
